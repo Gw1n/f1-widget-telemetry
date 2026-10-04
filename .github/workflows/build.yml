@@ -11,7 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # The full desktop app (Electron): Windows installer and portable exe.
+  # The full desktop app (Electron). `--publish never`: electron-builder otherwise tries to publish a
+  # release when it detects CI, and fails without a token.
   app-windows:
     runs-on: windows-latest
     steps:
@@ -21,12 +22,29 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx electron-builder --win --x64
+      - run: npx electron-builder --win --x64 --publish never
       - uses: actions/upload-artifact@v4
         with:
           name: f1-telemetry-windows
           path: |
             dist/*.exe
+          if-no-files-found: error
+
+  app-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx electron-builder --mac --arm64 --x64 --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f1-telemetry-macos
+          path: |
+            dist/*.dmg
           if-no-files-found: error
 
   # The tray/menu-bar widget (Tauri + Rust): built on both platforms so a Windows-only break shows up.
