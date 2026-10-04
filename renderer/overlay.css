@@ -1,0 +1,98 @@
+:root {
+  --text: #e8eaf0;
+  --dim: #9aa1b3;
+  --green: #2ecc71;
+  --red: #ff4d4d;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  color: var(--text);
+  font: 12px/1.4 -apple-system, "Segoe UI", system-ui, sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+#card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  border: 1px dashed transparent;
+}
+.stage { flex: 1; position: relative; min-height: 0; }
+body.bg #card { background: rgba(11, 13, 18, .55); }
+
+/* unlocked: the window can be dragged and its bounds are visible */
+body.unlocked #card { -webkit-app-region: drag; border-color: rgba(255, 255, 255, .45); }
+#hint {
+  display: none;
+  position: absolute; right: 10px; top: 8px;
+  padding: 2px 10px; border-radius: 99px; white-space: nowrap;
+  background: rgba(0, 0, 0, .6); color: var(--dim); font-size: 11px;
+}
+body.unlocked #hint { display: block; }
+
+#map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.hud { position: absolute; display: flex; gap: 8px; align-items: center; }
+.hud.tl { left: 12px; top: 10px; }
+#lap { font-size: 14px; letter-spacing: .03em; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); font-variant-numeric: tabular-nums; }
+
+.chip {
+  padding: 1px 8px; border-radius: 99px; font-weight: 600; font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, .18); color: var(--dim); background: rgba(0, 0, 0, .35);
+}
+.chip.GREEN { color: var(--green); border-color: #1d5a37; }
+.chip.YELLOW, .chip.SC_END { color: #ffd24d; border-color: #6b5a1e; }
+.chip.SC, .chip.VSC { color: #0b0d12; background: #ffd24d; border-color: #ffd24d; }
+.chip.RED { color: #fff; background: var(--red); border-color: var(--red); }
+.chip.CHEQUERED { color: #0b0d12; background: #f2f2f2; border-color: #f2f2f2; }
+
+#info {
+  flex: none; margin: 0 10px 10px; padding: 7px 10px; border-radius: 10px; background: rgba(0, 0, 0, .5);
+  display: flex; flex-direction: column; gap: 5px;
+}
+#info[hidden] { display: none; }
+.row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
+#t-color { width: 4px; height: 16px; border-radius: 2px; background: #888; }
+#t-acr { letter-spacing: .04em; }
+.n { color: var(--dim); font-variant-numeric: tabular-nums; }
+.n b { color: var(--text); font-size: 15px; }
+.drs {
+  margin-left: auto; padding: 1px 6px; border-radius: 4px; font-weight: 700; font-size: 10px;
+  border: 1px solid rgba(255, 255, 255, .18); color: var(--dim);
+}
+.drs.eligible { color: #ffd24d; border-color: #6b5a1e; }
+.drs.open { color: #0b0d12; background: var(--green); border-color: var(--green); }
+.pedals { display: flex; gap: 4px; height: 5px; }
+.pedals u { display: block; height: 100%; width: 0; border-radius: 3px; text-decoration: none; }
+#t-thr { background: var(--green); }
+#t-brk { background: var(--red); }
+
+.tyres { gap: 4px 8px; }
+.tyres b { font-size: 13px; }
+.dot {
+  width: 16px; height: 16px; border-radius: 50%; border: 2px solid #888; color: var(--text);
+  font: 700 8px/12px -apple-system, "Segoe UI", sans-serif; text-align: center; font-style: normal; flex: none;
+}
+.c-SOFT { border-color: #ff3b3b; }
+.c-MEDIUM { border-color: #ffd24d; }
+.c-HARD { border-color: #f2f2f2; }
+.c-INTERMEDIATE { border-color: #3ddc84; }
+.c-WET { border-color: #4da3ff; }
+.stints { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; }
+.stint { display: flex; align-items: center; gap: 3px; color: var(--dim); font-size: 10px; }
+.stint.now { color: var(--text); }
+.stint .dot { width: 12px; height: 12px; border-width: 2px; font-size: 0; }
+
+.gaps { gap: 8px; }
+.gap { flex: 1; display: flex; align-items: baseline; gap: 6px; padding: 3px 8px; border-radius: 6px; background: rgba(255, 255, 255, .06); min-width: 0; }
+.gap .arrow { color: var(--dim); font-size: 10px; }
+.gap b { letter-spacing: .04em; }
+.gap .v { margin-left: auto; font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 700; }

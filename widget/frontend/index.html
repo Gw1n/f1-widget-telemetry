@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>F1 Widget</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div id="meeting" class="meeting"></div>
+    <div id="sub" class="sub"></div>
+  </header>
+
+  <nav id="tabs">
+    <button data-tab="next" data-i18n="tab.next"></button>
+    <button data-tab="grid" data-i18n="tab.grid"></button>
+    <button data-tab="results" data-i18n="tab.results"></button>
+    <button data-tab="live"><span data-i18n="tab.live"></span><i id="live-dot" hidden></i></button>
+    <button data-tab="settings" data-i18n-title="tab.settings" class="gear">⚙</button>
+  </nav>
+
+  <main>
+    <section id="panel-next">
+      <div class="hero">
+        <div id="next-name" class="hero-name"></div>
+        <div id="next-when" class="hero-when"></div>
+        <div id="next-count" class="hero-count"></div>
+        <div id="next-tz" class="muted small"></div>
+      </div>
+      <div id="next-error" class="notice error-notice"></div>
+      <div id="weekend-title" class="block-title" data-i18n="next.weekend"></div>
+      <div id="weekend"></div>
+    </section>
+
+    <section id="panel-grid">
+      <div id="grid-title" class="block-title"></div>
+      <div id="grid"></div>
+    </section>
+
+    <section id="panel-results">
+      <div id="results-title" class="block-title"></div>
+      <div id="results"></div>
+      <div class="block-title row-title">
+        <span data-i18n="results.standings"></span>
+        <span class="seg">
+          <button data-standings="drivers" data-i18n="results.drivers"></button>
+          <button data-standings="teams" data-i18n="results.teams"></button>
+        </span>
+      </div>
+      <div id="standings"></div>
+    </section>
+
+    <section id="panel-live">
+      <div id="live-head" class="live-head"></div>
+      <div id="live-message" class="notice"></div>
+
+      <form id="login-form" hidden>
+        <label><span data-i18n="account.username"></span><input id="login-user" autocomplete="username" spellcheck="false"></label>
+        <label><span data-i18n="account.password"></span><input id="login-pass" type="password" autocomplete="current-password"></label>
+        <label class="check"><input id="login-remember" type="checkbox" checked><span data-i18n="account.remember"></span></label>
+        <div id="login-error" class="error"></div>
+        <button type="submit" class="primary" data-i18n="account.signIn"></button>
+      </form>
+
+      <div id="live-table"></div>
+    </section>
+
+    <section id="panel-settings">
+      <label class="field"><span data-i18n="settings.language"></span>
+        <select id="lang"><option value="en">English</option><option value="ru">Русский</option></select>
+      </label>
+      <label class="check"><input id="on-top" type="checkbox"><span data-i18n="settings.onTop"></span></label>
+
+      <div class="block-title" data-i18n="settings.account"></div>
+      <div id="account-state" class="muted"></div>
+      <button id="sign-out" hidden data-i18n="account.signOut"></button>
+      <button id="go-live" hidden data-i18n="account.signInForLive"></button>
+
+      <div class="block-title" data-i18n="settings.data"></div>
+      <button id="refresh" data-i18n="settings.refresh"></button>
+      <div id="error" class="error small"></div>
+      <div class="muted small credit" data-i18n="settings.credit"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

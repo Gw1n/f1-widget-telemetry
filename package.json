@@ -1,0 +1,71 @@
+{
+  "name": "f1-telemetry",
+  "version": "0.1.0",
+  "description": "Interactive Formula 1 telemetry viewer: track map, timing, tyres, lap comparison, live data and a desktop overlay",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:mac": "electron-builder --mac --arm64 --x64",
+    "dist:win": "electron-builder --win --x64",
+    "dist": "npm run dist:mac && npm run dist:win"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "mqtt": "^5.16.0"
+  },
+  "author": "Gw1n",
+  "build": {
+    "appId": "dev.gw1n.f1telemetry",
+    "productName": "F1 Telemetry",
+    "copyright": "Data: OpenF1 (openf1.org)",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "preload-overlay.js",
+      "src/**",
+      "renderer/**",
+      "assets/icon.png",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.sports",
+      "icon": "assets/icon.png",
+      "target": [
+        "dmg"
+      ],
+      "identity": "-",
+      "hardenedRuntime": false
+    },
+    "dmg": {
+      "title": "F1 Telemetry"
+    },
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "${productName}-Setup-${version}-${arch}.${ext}"
+    },
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "portable": {
+      "artifactName": "${productName}-${version}-portable-${arch}.${ext}"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gw1n/f1-widget-telemetry.git"
+  }
+}

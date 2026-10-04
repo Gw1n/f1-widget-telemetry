@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>F1 Telemetry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>F1 <span>Telemetry</span></h1>
+    <select id="year" data-i18n-title="title.season"></select>
+    <select id="race" data-i18n-title="title.race"></select>
+    <button id="live-btn" data-i18n-title="title.live"></button>
+    <div class="ov" data-i18n-title="ov.title">
+      <button id="ov-toggle"></button>
+      <label><input type="checkbox" id="ov-lock" disabled> <span data-i18n="ov.lock"></span></label>
+      <label><span data-i18n="ov.size"></span> <input type="range" id="ov-size" min="280" max="900" step="10" disabled></label>
+      <label><span data-i18n="ov.opacity"></span> <input type="range" id="ov-opacity" min="0.2" max="1" step="0.05" disabled></label>
+      <label><input type="checkbox" id="ov-bg" disabled> <span data-i18n="ov.bg"></span></label>
+    </div>
+    <label class="pin"><input type="checkbox" id="pin"> <span data-i18n="pin"></span></label>
+    <select id="lang" data-i18n-title="title.language"></select>
+    <span id="status"></span>
+  </header>
+
+  <main>
+    <section class="map">
+      <div class="stage">
+        <canvas id="map"></canvas>
+        <div class="hud tl"><b id="lapinfo"></b><span id="trackstatus" class="chip"></span></div>
+        <div class="hud tr" id="weather"></div>
+        <div class="hud bl" id="rcfeed"></div>
+        <div id="buffering" hidden data-i18n="hud.loading"></div>
+      </div>
+
+      <div id="compare" hidden>
+        <div class="cmp-left">
+          <div class="cmp-head">
+            <b data-i18n="cmp.title"></b>
+            <select id="cmp-mode" data-i18n-title="cmp.modeTitle">
+              <option value="last" data-i18n="cmp.modeLast"></option>
+              <option value="best" data-i18n="cmp.modeBest"></option>
+            </select>
+            <button id="cmp-close" data-i18n-title="cmp.close">✕</button>
+          </div>
+          <div class="cmp-cards"><div class="card" id="card-a"></div><div class="card" id="card-b"></div></div>
+          <div id="cmp-gap" class="cmp-gap"></div>
+          <table class="cmp-table">
+            <thead><tr><th></th><th id="th-a"></th><th id="th-b"></th><th data-i18n="cmp.fasterBy"></th></tr></thead>
+            <tbody id="cmp-body"></tbody>
+          </table>
+        </div>
+        <div class="cmp-right">
+          <div id="cmp-readout" class="cmp-readout"></div>
+          <div class="cv"><canvas id="cmp-speed"></canvas></div>
+          <div class="cv"><canvas id="cmp-delta"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <aside id="board">
+      <div class="row head">
+        <span>#</span><span></span><span data-i18n="board.driver"></span><span data-i18n="board.tyres"></span><span data-i18n="board.interval"></span><span data-i18n="board.leader"></span><span data-i18n="board.lap"></span>
+      </div>
+      <div id="rows"></div>
+    </aside>
+
+    <aside id="telemetry">
+        <div class="tel-head">
+          <span id="tel-color"></span>
+          <span id="tel-name"></span>
+        </div>
+        <div class="tel-body" id="tel-body" hidden>
+          <label class="cmp-pick"><span data-i18n="tel.compareWith"></span> <select id="cmp-select"></select></label>
+          <div class="tel-top">
+            <div class="big"><b id="spd">0</b><small data-i18n="unit.kmh"></small></div>
+            <div class="big gear"><b id="gear">N</b><small data-i18n="tel.gear"></small></div>
+            <div id="drs" class="drs">DRS</div>
+          </div>
+          <div class="bar"><label>RPM <i id="rpm-v"></i></label><div><u id="rpm"></u></div></div>
+          <div class="bar"><label><span data-i18n="tel.throttle"></span> <i id="thr-v"></i></label><div><u id="thr" class="g"></u></div></div>
+          <div class="bar"><label data-i18n="tel.brake"></label><div><u id="brk" class="r"></u></div></div>
+          <canvas id="trace" height="90"></canvas>
+
+          <table class="laps">
+            <thead><tr><th></th><th>S1</th><th>S2</th><th>S3</th><th data-i18n="lap.lap"></th></tr></thead>
+            <tbody>
+              <tr id="lap-cur"><th></th><td></td><td></td><td></td><td></td></tr>
+              <tr id="lap-last"><th></th><td></td><td></td><td></td><td></td></tr>
+              <tr id="lap-best"><th data-i18n="lap.best"></th><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+          <div class="traps"><span data-i18n="lap.traps"></span> <b id="traps"></b></div>
+
+          <div class="sect-title" data-i18n="sec.tyres"></div>
+          <div id="stints" class="chips"></div>
+          <div class="sect-title" data-i18n="sec.pits"></div>
+          <div id="pits" class="pits"></div>
+        </div>
+    </aside>
+  </main>
+
+  <footer>
+    <button id="play" data-i18n-title="play.title">▶</button>
+    <select id="speed" data-i18n-title="speed.title">
+      <option value="1">1×</option>
+      <option value="2">2×</option>
+      <option value="4">4×</option>
+      <option value="8">8×</option>
+      <option value="16">16×</option>
+    </select>
+    <input type="range" id="seek" min="0" max="1" value="0" step="1000">
+    <label id="live-delay-wrap" hidden data-i18n-title="live.delayTitle">
+      <span data-i18n="live.delay"></span> <input type="number" id="live-delay" min="0" max="120" step="1"> <span data-i18n="unit.s"></span>
+    </label>
+    <button id="live-pill" hidden></button>
+    <span id="clock">0:00:00</span>
+  </footer>
+
+  <dialog id="live-dialog">
+    <h2 data-i18n="live.dialogTitle"></h2>
+    <p class="hint" data-i18n="live.hint"></p>
+
+    <div id="live-account" hidden><span data-i18n="live.signedInAs"></span> <b id="live-user"></b> <button type="button" id="live-logout" data-i18n="live.signOut"></button></div>
+    <div id="live-fields">
+      <label><span data-i18n="live.username"></span> <input id="live-username" autocomplete="username" spellcheck="false"></label>
+      <label><span data-i18n="live.password"></span> <input id="live-password" type="password" autocomplete="current-password"></label>
+      <label class="remember"><input type="checkbox" id="live-remember"> <span data-i18n="live.remember"></span></label>
+    </div>
+
+    <div id="live-msg" class="msg"></div>
+    <div class="actions">
+      <button type="button" id="live-go" class="primary"></button>
+      <button type="button" id="live-demo" data-i18n="live.demo" data-i18n-title="live.demoTitle"></button>
+      <button type="button" id="live-cancel" data-i18n="live.cancel"></button>
+    </div>
+    <p class="hint small" data-i18n="live.demoHint"></p>
+  </dialog>
+
+  <script src="i18n.js"></script>
+  <script src="map.js"></script>
+  <script src="race.js"></script>
+  <script src="compare.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

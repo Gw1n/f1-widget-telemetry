@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+  <title>F1 Overlay</title>
+  <link rel="stylesheet" href="overlay.css">
+</head>
+<body>
+  <div id="card">
+    <div class="stage">
+      <canvas id="map"></canvas>
+      <div class="hud tl"><b id="lap"></b><span id="status" class="chip"></span></div>
+    </div>
+
+    <div id="info" hidden>
+      <div class="row">
+        <span id="t-color"></span><b id="t-acr"></b><span id="t-pos" class="n"></span>
+        <span class="n"><b id="t-spd">0</b> <span data-i18n="unit.kmh"></span></span>
+        <span class="n"><span data-i18n="ov.gear"></span> <b id="t-gear">N</b></span>
+        <span id="t-drs" class="drs">DRS</span>
+      </div>
+      <div class="pedals"><u id="t-thr"></u><u id="t-brk"></u></div>
+
+      <div class="row tyres">
+        <i id="t-dot" class="dot"></i><b id="t-tyre"></b>
+        <span id="t-stops" class="n"></span>
+        <span id="t-stints" class="stints"></span>
+      </div>
+
+      <div class="row gaps">
+        <div class="gap"><span class="arrow" data-i18n="ov.ahead"></span><b id="g-up-acr"></b><span id="g-up" class="v"></span></div>
+        <div class="gap"><span class="arrow" data-i18n="ov.behind"></span><b id="g-dn-acr"></b><span id="g-dn" class="v"></span></div>
+      </div>
+    </div>
+
+    <div id="hint" data-i18n="ov.hint"></div>
+  </div>
+  <script src="i18n.js"></script>
+  <script src="map.js"></script>
+  <script src="overlay.js"></script>
+</body>
+</html>

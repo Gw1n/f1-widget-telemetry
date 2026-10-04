@@ -1,0 +1,12 @@
+{
+  "name": "f1-widget-e2e",
+  "private": true,
+  "description": "End-to-end test of the widget's live path against a fake OpenF1 API and a local MQTT broker",
+  "scripts": {
+    "test": "node widget_e2e.js",
+    "test:denied": "DENY=1 node widget_e2e.js"
+  },
+  "devDependencies": {
+    "aedes": "^1.0.0"
+  }
+}
